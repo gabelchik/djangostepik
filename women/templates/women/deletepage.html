@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Вы точно хотите удалить этот пост?</p>
+    <p>Удаляемая запись: "{{ object }}"</p>
+    {{ form }}
+    <p><button type="submit">Подтвердить</button></p>
+</form>
+{% endblock %}
