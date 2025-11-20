@@ -3,6 +3,7 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Обратная связь", 'url_name': 'contact'},
 ]
 
+
 class DataMixin:
     title_page = None
     cat_selected = None
@@ -10,6 +11,7 @@ class DataMixin:
     paginate_by = 2
 
     def __init__(self):
+
         if self.title_page:
             self.extra_context['title'] = self.title_page
 
@@ -20,4 +22,5 @@ class DataMixin:
     def get_mixin_context(self, context, **kwargs):
         context['cat_selected'] = None
         context.update(kwargs)
+
         return context

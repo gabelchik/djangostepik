@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.paginator import Paginator
 
-from .forms import AddPostForm, UploadFileForm
-from .models import Women, UploadFiles
+from .forms import AddPostForm
+from .models import Women
 from .utils import DataMixin
 
 
@@ -44,19 +44,6 @@ class ShowPost(DataMixin, DetailView):
         return self.get_mixin_context(context, title=context['post'].title)
 
 
-# def show_category(request, cat_slug):
-#     category = get_object_or_404(Category, slug=cat_slug)
-#     posts = Women.published.filter(cat_id=category.pk).select_related('cat')
-#
-#     data = {
-#         'title': f'Рубрика: {category.name}',
-#         'menu': menu,
-#         'posts': posts,
-#         'cat_selected': category.pk,
-#     }
-#     return render(request, 'women/index.html', context=data)
-
-
 class WomenCategory(DataMixin, ListView):
     template_name = 'women/index.html'
     context_object_name = 'posts'
@@ -72,19 +59,6 @@ class WomenCategory(DataMixin, ListView):
                                                cat_selected=cat.pk)
 
 
-# def show_tag_postlist(request, tag_slug):
-#     tag = get_object_or_404(TagPost, slug=tag_slug)
-#     posts = tag.tags.filter(is_published=Women.Status.PUBLISHED).select_related('cat')
-#     data = {
-#         'title': f'Тег: {tag.tag}',
-#         'menu': menu,
-#         'posts': posts,
-#         'cat_selected': None,
-#     }
-#
-#     return render(request, 'women/index.html', context=data)
-
-
 class WomenTags(DataMixin, ListView):
     template_name = 'women/index.html'
     context_object_name = 'posts'
@@ -96,53 +70,6 @@ class WomenTags(DataMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return self.get_mixin_context(context, title=f'Тег: ' + self.kwargs['tag_slug'])
-
-
-# def addpage(request):
-#     if request.method == 'POST':
-#         form = AddPostForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             # try:
-#             #     Women.objects.create(**form.cleaned_data)
-#             #     return redirect('home')
-#             # except:
-#             #     form.add_error(None, 'Ошибка добавления поста')
-#             form.save()
-#             return redirect('home')
-#     else:
-#         form = AddPostForm()
-#     data = {
-#         'menu': menu,
-#         'title': 'Добавление статьи',
-#         'form': form
-#     }
-#     return render(request, 'women/addpage.html', data)
-
-
-# class AddPage(View):
-#     def get(self, request):
-#         form = AddPostForm()
-#         data = {
-#             'menu': menu,
-#             'title': 'Добавление статьи',
-#             'form': form
-#         }
-#
-#         return render(request, 'women/addpage.html', data)
-#
-#     def post(self, request):
-#         form = AddPostForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('home')
-#
-#         data = {
-#             'menu': menu,
-#             'title': 'Добавление статьи',
-#             'form': form
-#         }
-#
-#         return render(request, 'women/addpage.html', data)
 
 
 class AddPage(DataMixin, CreateView):

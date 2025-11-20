@@ -14,20 +14,20 @@ class MarriedFilter(admin.SimpleListFilter):
         ]
 
     def queryset(self, request, queryset):
+
         if self.value() == 'married':
             return queryset.filter(husband__isnull=False)
 
         elif self.value() == 'single':
             return queryset.filter(husband__isnull=True)
 
+
 @admin.register(Women)
 class WomenAdmin(admin.ModelAdmin):
     fields = ('title', 'slug', 'content', 'photo', 'post_photo', 'cat', 'husband', 'tags')
-    # exclude = ('tags', 'is_published')
     readonly_fields = ('post_photo',)
     prepopulated_fields = {'slug': ('title', )}
     filter_horizontal = ('tags',)
-    # filter_vertical = ('tags',)
     list_display = ('title', 'post_photo','time_create', 'is_published', 'cat')
     list_display_links = ('title',)
     ordering = ('-time_create', 'title')

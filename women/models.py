@@ -4,14 +4,24 @@ from django.template.defaultfilters import slugify
 from unidecode import unidecode
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 
-# Create your models here.
 
 class PublishedManager(models.Manager):
+
     def get_queryset(self):
         return super().get_queryset().filter(is_published=Women.Status.PUBLISHED)
 
 
 class Women(models.Model):
+
+    class Meta:
+        verbose_name = 'Известные женщины'
+        verbose_name_plural = 'Известные женщины'
+        ordering = ['-time_create']
+        indexes = [
+            models.Index(fields=['-time_create'])
+        ]
+
+
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
@@ -34,26 +44,18 @@ class Women(models.Model):
     husband = models.OneToOneField('Husband', on_delete=models.SET_NULL, null=True,
                                    blank=True, related_name='wuman', verbose_name='Муж')
 
+
     objects = models.Manager()
     published = PublishedManager()
+
 
     def __str__(self):
         return self.title
 
-    class Meta:
-        verbose_name = 'Известные женщины'
-        verbose_name_plural = 'Известные женщины'
-        ordering = ['-time_create']
-        indexes = [
-            models.Index(fields=['-time_create'])
-        ]
 
     def get_absolute_url(self):
         return reverse('post', kwargs={'post_slug': self.slug})
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(unidecode(str(self.title)))
-    #     super().save(*args, **kwargs)
 
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True, verbose_name='Категория')

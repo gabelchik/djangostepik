@@ -1,28 +1,9 @@
 from django import forms
 from .models import Category, Husband, TagPost, Women
 from django.core.exceptions import ValidationError
-from django.core.validators import MinLengthValidator, MaxLengthValidator
-# from django.utils.deconstruct import deconstructible
-
-# @deconstructible
-# class RussianValidator:
-#     ALLOWED_CHARS = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя0123456789- '
-#     code = 'russian'
-#
-#     def __init__(self, message=None):
-#         self.message = message if message else 'Должны присутствовать только русские символы, дефис и пробел.'
-#
-#     def __call__(self, value, *args, **kwargs):
-#         if not (set(value) <= set(self.ALLOWED_CHARS)):
-#             raise ValidationError(self.message, code = self.code)
-
 
 
 class AddPostForm(forms.ModelForm):
-    cat = forms.ModelChoiceField(queryset=Category.objects.all(),
-                                 empty_label='Категория не выбрана',label='Категории')
-    husband = forms.ModelChoiceField(queryset=Husband.objects.all(), required=False,
-                                     empty_label='Не замужем', label='Муж')
 
     class Meta:
         model = Women
@@ -34,6 +15,11 @@ class AddPostForm(forms.ModelForm):
         labels = {
             'slug': 'URL',
         }
+
+    cat = forms.ModelChoiceField(queryset=Category.objects.all(),
+                                 empty_label='Категория не выбрана',label='Категории')
+    husband = forms.ModelChoiceField(queryset=Husband.objects.all(), required=False,
+                                     empty_label='Не замужем', label='Муж')
 
     def clean_title(self):
         title = self.cleaned_data['title']
