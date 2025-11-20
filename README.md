@@ -4,6 +4,11 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 
+## Важно для корректной работы
+Перед запуском сервера необходимо скачать все пакеты, прописанные в "requirements.txt".
+А также необходимо
+назначить "sources root" папку "sitewomen".
+
 ## 📝 Описание проекта
 
 Веб-сайт, посвященный известным и влиятельным женщинам из разных сфер деятельности. 
